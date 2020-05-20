@@ -1,9 +1,12 @@
-import React, { useRef, useEffect } from 'react';
-import { Animated, StyleSheet } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Animated, StyleSheet } from 'react-native';
 
+import usePrevious from '../../../../hooks/usePrevious';
 import { getRefs, mergeStyles } from '../../utils';
 
 export default EnterExit = ( props ) => {
+  const [ mount, setMount ] = useState( props.show );
+
   const { enter, idle, exit } = props;
 
   // Combine refs in reverse order to preserve Enter animation's initial state.
@@ -26,26 +29,35 @@ export default EnterExit = ( props ) => {
     enter.styles( refs ),
   ]);
 
+  // Keep track of the previous 'show' prop.
+  const prevShow = usePrevious( props.show );
+
+  // Respond to changes in the 'show' prop by entering or exiting.
   useEffect(() => {
-    if( props.shouldExit ) {
-      idle.start( animations.idle );
-      exit.start( animations.exit );
-      animations.idle
-    } else if( props.shouldEnter ) {
+    if( !prevShow && props.show ) {
+      setMount( true );
+
       enter.start( animations.enter, () => {
         idle.start( animations.idle );
+      });
+    } else if( prevShow && !props.show ) {
+      idle.start( animations.idle );
+      exit.start( animations.exit, () => {
+        setMount( false );
       });
     }
   });
 
-  return (
-    <Animated.View
-      { ...props }
-      style={[
-        props.styles,
-        styles
-      ]}>
-      { props.children }
-    </Animated.View>
-  );
+  return mount
+    ? (
+      <Animated.View
+        { ...props }
+        style={[
+          props.styles,
+          styles
+        ]}>
+        { props.children }
+      </Animated.View>
+    )
+    : <View/>
 }

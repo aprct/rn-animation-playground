@@ -5,19 +5,18 @@ import { fadeIn, fadeOut, exitLeft, exitDown, hover } from './components/Animati
 import EnterExit from './components/Animation/Choreography/EnterExit';
 
 const RNAnimated = () => {
-  const [ shouldEnter, setShouldEnter ] = useState( false );
-  const [ shouldExit, setShouldExit ] = useState( false );
+  const [ show, setShow ] = useState( false );
 
   return (
-    <View style={styles.container}>
+    <View style={ styles.container }>
 
-      <EnterExit enter={ fadeIn } shouldEnter={ shouldEnter } idle={ hover } exit={ exitDown } shouldExit={ shouldExit }>
+      <EnterExit show={ show } enter={ fadeIn } idle={ hover } exit={ exitDown }>
         <Text style={[ styles.text ]}>Hello world!</Text>
       </EnterExit>
 
-      <View style={styles.buttonRow}>
-        <Button title="Enter" onPress={ () => { setShouldExit( false ); setShouldEnter( true ); } } />
-        <Button title="Exit" onPress={ () => { setShouldExit( true ); setShouldEnter( true ); } } />
+      <View style={ styles.buttonRow }>
+        <Button title="Enter" onPress={ () => { setShow( true ); } } />
+        <Button title="Exit" onPress={ () => { setShow( false ); } } />
       </View>
     </View>
   );
@@ -42,7 +41,11 @@ const styles = StyleSheet.create({
   },
   buttonRow: {
     flexDirection: "row",
-    marginVertical: 16
+    justifyContent: "center",
+    position: "absolute",
+    bottom: 64,
+    left: 0,
+    right: 0,
   }
 });
 

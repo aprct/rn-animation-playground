@@ -22,7 +22,7 @@ const exitLeft = {
       })
   ],
   start: ( animations, callback = () => {} ) => {
-    Animated.sequence( animations ).start();
+    Animated.sequence( animations ).start( callback );
   },
   styles: ( refs ) => ({
     transform: [ { translateY: refs.translateY } ] // Bind translateY to animated value
