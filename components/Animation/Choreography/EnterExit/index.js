@@ -37,9 +37,8 @@ export default EnterExit = ( props ) => {
     if( !prevShow && props.show ) {
       setMount( true );
 
-      enter.start( animations.enter, () => {
-        idle.start( animations.idle );
-      });
+      enter.start( animations.enter );
+      idle.start( animations.idle );
     } else if( prevShow && !props.show ) {
       idle.start( animations.idle );
       exit.start( animations.exit, () => {

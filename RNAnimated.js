@@ -10,7 +10,7 @@ const RNAnimated = () => {
   return (
     <View style={ styles.container }>
 
-      <EnterExit show={ show } enter={ fadeIn } idle={ hover } exit={ exitDown }>
+      <EnterExit show={ show } enter={ fadeIn } idle={ hover } exit={ exitLeft }>
         <Text style={[ styles.text ]}>Hello world!</Text>
       </EnterExit>
 
