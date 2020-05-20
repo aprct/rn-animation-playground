@@ -45,7 +45,7 @@ export default EnterExit = ( props ) => {
         setMount( false );
       });
     }
-  });
+  }, [ props.show ]);
 
   return mount
     ? (
